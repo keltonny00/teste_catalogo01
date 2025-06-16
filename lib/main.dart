@@ -62,7 +62,7 @@ final List<Product> dummyProducts = [
     name: 'Smartwatch Bazik Prime W93 Pro Max',
     description: 'O Bazik Prime W93 Pro Max é um smartwatch premium com design sofisticado e tecnologia de ponta, ideal para quem busca conectividade, monitoramento avançado e um estilo de vida dinâmico. Equipado com uma tela AMOLED de alta resolução, GPS integrado e assistente de voz, ele combina funcionalidade e personalização, garantindo uma experiência completa.',
     imageUrl: 'assets/imagens/smartwatch.png',
-    price: 349.90,
+    price: 249.00,
     externalBuyLink: 'https://lojabasike.com.br/collections/smartwatches/products/smartwatch-bazik-prime-w93-pro-max-46mm-tela-amoled-bluetooth-gps',
     category: 'Eletrônicos',
   ),
@@ -310,13 +310,11 @@ class ProductDetailScreen extends StatelessWidget {
 
   const ProductDetailScreen({super.key, required this.product});
 
-  // CORREÇÃO: Adicione BuildContext context como parâmetro aqui
   Future<void> _launchURL(BuildContext context, String url) async {
     final Uri uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     } else {
-      // Usamos o context passado como parâmetro
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Não foi possível abrir o link: $url')),
       );
@@ -402,7 +400,6 @@ class ProductDetailScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
-                // CORREÇÃO: Chame o método passando o context
                 onPressed: () => _launchURL(context, product.externalBuyLink),
                 icon: const Icon(Icons.shopping_cart),
                 label: const Text(
@@ -448,23 +445,15 @@ class ProductDetailScreen extends StatelessWidget {
 class StoreMapScreen extends StatelessWidget {
   const StoreMapScreen({super.key});
 
-  // CORREÇÃO: Adicione BuildContext context como parâmetro aqui
   Future<void> _launchMapsUrl(BuildContext context) async {
-    // Coordenadas de um local em Igarassu, Pernambuco (exemplo)
-    const String latitude = '-7.8398';
-    const String longitude = '-34.9080';
-    // String para abrir o Google Maps com coordenadas.
-    // Lembre-se que "q=latitude,longitude" é para pesquisar um local.
-    // Para um ponto específico, "ll=latitude,longitude" é mais comum, mas q é mais robusto.
-    final String googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    // Coordenadas da Kalunga no Shopping Tacaruna
+    const String kalungaMapsUrl = 'https://maps.google.com/?cid=11876611944683134635';
 
-
-    final Uri uri = Uri.parse(googleMapsUrl);
+    final Uri uri = Uri.parse(kalungaMapsUrl);
 
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     } else {
-      // Usamos o context passado como parâmetro
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Não foi possível abrir o aplicativo de mapas.')),
       );
@@ -490,15 +479,12 @@ class StoreMapScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 20),
-              // Imagem estática do mapa para visualização rápida.
-              // As coordenadas são um exemplo de Igarassu, Pernambuco.
-              // NOTA: Para usar a API Static Maps, você precisa de uma chave API do Google Maps.
-              // Substitua 'YOUR_Maps_STATIC_API_KEY' pela sua chave.
               ClipRRect(
                 borderRadius: BorderRadius.circular(10.0),
                 child: Image.network(
-                  // Use as coordenadas de Igarassu, Pernambuco
-                  'https://maps.googleapis.com/maps/api/staticmap?center=-7.8398,-34.9080&zoom=14&size=400x250&markers=color:red%7Clabel:L%7C-7.8398,-34.9080&key=YOUR_Maps_STATIC_API_KEY', // <<< SUBSTITUA PELA SUA CHAVE API AQUI
+                  // Use o link da Kalunga para o mapa estático.
+                  // Lembre-se de substituir 'YOUR_Maps_STATIC_API_KEY' pela sua chave API real.
+                  'https://maps.googleapis.com/maps/api/staticmap?center=-8.037107,-34.870295&zoom=16&size=400x250&markers=color:red%7Clabel:K%7C-8.037107,-34.870295&key=YOUR_Maps_STATIC_API_KEY', // <-- Link da Kalunga
                   height: 250,
                   width: double.infinity,
                   fit: BoxFit.cover,
@@ -519,7 +505,6 @@ class StoreMapScreen extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               ElevatedButton.icon(
-                // CORREÇÃO: Chame o método passando o context
                 onPressed: () => _launchMapsUrl(context),
                 icon: const Icon(Icons.location_on),
                 label: const Text('Abrir no Google Maps'),
